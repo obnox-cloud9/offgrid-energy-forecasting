@@ -1,0 +1,28 @@
+[11:30:03] data: {'raw_rows': 52416, 'raw_start': '2017-01-01 00:00:00', 'raw_end': '2017-12-30 23:50:00', 'missing_10min_slots': 0, 'missing_values': 0, 'hourly_rows': 8736, 'hours_with_<6_readings': 0}
+[11:30:04] split: {'modelling_rows': 8400, 'n_features': 31, 'train_rows': 6720, 'test_rows': 1680, 'train_period': '2017-01-15 00:00:00 -> 2017-10-21 23:00:00', 'test_period': '2017-10-22 00:00:00 -> 2017-12-30 23:00:00'}
+[11:30:04] grid-searching Random Forest with TimeSeriesSplit ...
+[11:36:24] models:
+                                         R2  ...  MAE_skill_vs_seasonal_naive_pct
+Seasonal naive (same hour yesterday)  0.941  ...                            0.000
+Weekly naive (same hour last week)    0.936  ...                          -10.846
+7-day same-hour mean                  0.948  ...                           -1.608
+Ridge regression                      0.969  ...                           15.120
+Random Forest                         0.966  ...                           14.995
+Random Forest (raw target)            0.958  ...                            8.175
+
+[6 rows x 6 columns]
+RF extra: {'best_params': {'max_depth': 20, 'max_features': 0.33, 'min_samples_leaf': 10, 'n_estimators': 400}, 'cv_R2_mean_train_period': 0.9131535078314734, 'train_R2': 0.9853591518219287, 'test_R2_95CI_day_block_bootstrap': [0.95591144524732, 0.9751766482224515], 'test_R2_weather_lagged_24h': 0.9661477771833328, 'test_R2_other_zones': {'zone2_kw': 0.9572295829502326, 'zone3_kw': 0.8333881386911542}}
+[11:36:24] SHAP ...
+/home/claude/offgrid-energy-forecasting/src/plots.py:139: FutureWarning: The NumPy global RNG was seeded by calling `np.random.seed`. In a future version this function will no longer use the global RNG. Pass `rng` explicitly to opt-in to the new behaviour and silence this warning.
+  shap.summary_plot(values, sample, show=False, max_display=15, plot_size=(8, 6))
+[11:36:54] shap groups: {'temporal': 41.88, 'consumption': 25.49, 'peak_load': 19.88, 'weather': 12.75}
+[11:36:54] simulation:
+                           unmet_kwh  ...  pv_curtailed_kwh
+Seasonal naive                 657.9  ...               0.0
+Static weekly profile           46.6  ...               0.0
+Random Forest                  243.7  ...               0.0
+Perfect forecast (oracle)        0.0  ...               0.0
+
+[4 rows x 6 columns]
+[11:36:54] unmet reduction vs naive: 63.0% | equal budget: 64.9%
+[11:36:54] done -> results/metrics.json
